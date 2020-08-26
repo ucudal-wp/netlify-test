@@ -7,7 +7,11 @@ const nameInput = document.querySelector('#name');
 const okButton = document.querySelector('#ok');
 okButton.addEventListener('click', () => {
   const name = nameInput.value;
-  fetch(`${greetingServiceUrl}?name=${name}`)
+
+  const searchParams = new URLSearchParams();
+  searchParams.append('name', name);
+
+  fetch(`${greetingServiceUrl}?${searchParams}`)
     .then((res) => res.json())
     .then((data) => {
       const { greeting } = data;
