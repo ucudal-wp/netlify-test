@@ -4,10 +4,10 @@
   "description": "A typical JavaScript dev environment",
   "main": "index.js",
   "scripts": {
-    "lint:css": "stylelint **/*.css",
+    "lint:css": "stylelint --allow-empty-input **/*.css",
     "lint:js": "eslint .",
     "lint": "npm run lint:js && npm run lint:css",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "repository": {
     "type": "git",
