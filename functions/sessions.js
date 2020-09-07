@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-// TODO: Move to environment variable. Never commit secrets to version control.
-const jwtSecret = 'shhhhhhh';
+const jwtSecret = process.env.JWT_SECRET;
 
 // TODO: Move to real database.
 const users = [
