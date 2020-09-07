@@ -21,11 +21,24 @@ const signIn = async (username, password) => {
   window.localStorage.setItem(tokenStorageKey, token);
 };
 
+const isAuthenticated = () => !!window.localStorage.getItem(tokenStorageKey);
+
+const authenticatedApp = document.querySelector('#authenticated-app');
+const unauthenticatedApp = document.querySelector('#unauthenticated-app');
+
+const renderApp = () => {
+  if (isAuthenticated()) {
+    authenticatedApp.style.display = 'block';
+    unauthenticatedApp.style.display = 'none';
+  } else {
+    authenticatedApp.style.display = 'none';
+    unauthenticatedApp.style.display = 'block';
+  }
+};
+
 const usernameInput = document.querySelector('#username');
 const passwordInput = document.querySelector('#password');
-
 const errorText = document.querySelector('#error');
-
 const signInButton = document.querySelector('#sign-in');
 signInButton.addEventListener('click', async () => {
   const username = usernameInput.value;
@@ -41,3 +54,5 @@ signInButton.addEventListener('click', async () => {
     errorText.textContent = err.message;
   }
 });
+
+renderApp();

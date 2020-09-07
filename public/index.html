@@ -6,16 +6,21 @@
     <script src="script.js" defer></script>
   </head>
   <body>
-    <h1>Sign in to <strong>Netlify Demo</strong></h1>
-    <label for="username">
-      Username:
-      <input id="username" name="username" type="text" />
-    </label>
-    <label for="password">
-      Password:
-      <input id="password" name="password" type="password" />
-    </label>
-    <button id="sign-in" type="button">Sign In</button>
-    <p id="error"></p>
+    <div id="authenticated-app" style="display: none;">
+      <button id="sign-out" type="button">Sign Out</button>
+    </div>
+    <div id="unauthenticated-app" style="display: none;">
+      <h1>Sign in to <strong>Netlify Demo</strong></h1>
+      <label for="username">
+        Username:
+        <input id="username" name="username" type="text" />
+      </label>
+      <label for="password">
+        Password:
+        <input id="password" name="password" type="password" />
+      </label>
+      <button id="sign-in" type="button">Sign In</button>
+      <p id="error"></p>
+    </div>
   </body>
 </html>
