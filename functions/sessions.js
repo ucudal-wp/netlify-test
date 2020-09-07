@@ -20,7 +20,10 @@ exports.handler = (event, context, callback) => {
   if (!foundUser || foundUser.password !== password) {
     callback(null, {
       statusCode: 401,
-      body: 'Invalid username/password combination',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ error: 'Invalid username/password combination.' }),
     });
     return;
   }
@@ -29,6 +32,9 @@ exports.handler = (event, context, callback) => {
 
   callback(null, {
     statusCode: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({ token }),
   });
 };
