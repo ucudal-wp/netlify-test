@@ -50,6 +50,9 @@ signInButton.addEventListener('click', async () => {
     usernameInput.value = '';
     passwordInput.value = '';
     errorText.textContent = '';
+
+    // Re-render app.
+    renderApp();
   } catch (err) {
     errorText.textContent = err.message;
   }
@@ -58,6 +61,9 @@ signInButton.addEventListener('click', async () => {
 const signOutButton = document.querySelector('#sign-out');
 signOutButton.addEventListener('click', () => {
   window.localStorage.removeItem(tokenStorageKey);
+
+  // Re-render app.
+  renderApp();
 });
 
 renderApp();
