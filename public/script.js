@@ -55,4 +55,9 @@ signInButton.addEventListener('click', async () => {
   }
 });
 
+const signOutButton = document.querySelector('#sign-out');
+signOutButton.addEventListener('click', () => {
+  window.localStorage.removeItem(tokenStorageKey);
+});
+
 renderApp();
