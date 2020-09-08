@@ -20,6 +20,9 @@
     "url": "https://github.com/ucudal-wp/dev-env/issues"
   },
   "homepage": "https://github.com/ucudal-wp/dev-env#readme",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  },
   "devDependencies": {
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
