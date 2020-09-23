@@ -1,2 +1,3 @@
-# dev-env
-A typical JavaScript dev environment
+# netlify-demo
+
+A demo of Netlify.
