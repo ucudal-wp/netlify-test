@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 
+const { mongodb } = require('../libs/connectors');
+
 const jwtSecret = process.env.JWT_SECRET;
+const mongodbUri = process.env.MONGODB_URI;
 
 // TODO: Move to real database.
 const users = [
@@ -12,6 +15,8 @@ const users = [
 ];
 
 exports.handler = async (event) => {
+  await mongodb(mongodbUri);
+
   const { body } = event;
 
   const { username, password } = JSON.parse(body);
