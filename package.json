@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "description": "A demo of Netlify",
   "scripts": {
-    "dev": "npm-run-all --parallel mongodb netlify",
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:mongodb": "run-rs -k -v 4.2.9",
+    "dev:netlify": "netlify dev",
     "lint:css": "stylelint --allow-empty-input **/*.css",
     "lint:js": "eslint .",
     "lint": "npm run lint:js && npm run lint:css",
-    "mongodb": "run-rs -k -v 4.2.9",
-    "netlify": "netlify dev",
     "test": "jest --passWithNoTests"
   },
   "repository": {
