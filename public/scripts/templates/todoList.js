@@ -18,10 +18,7 @@ const todoList = () => {
     </ul>`;
   };
 
-  return html`
-    <h1>TODO:</h1>
-    ${resolvePromise(fetchTodos())}
-  `;
+  return html`${resolvePromise(fetchTodos())}`;
 };
 
 export default todoList;
