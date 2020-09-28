@@ -1,18 +1,10 @@
 const jwt = require('jsonwebtoken');
 
+const { User } = require('../libs/models');
 const { mongodb } = require('../libs/connectors');
 
 const jwtSecret = process.env.JWT_SECRET;
 const mongodbUri = process.env.MONGODB_URI;
-
-// TODO: Move to real database.
-const users = [
-  {
-    id: '123',
-    username: 'olistic',
-    password: '12345678',
-  },
-];
 
 exports.handler = async (event) => {
   await mongodb(mongodbUri);
@@ -21,8 +13,8 @@ exports.handler = async (event) => {
 
   const { username, password } = JSON.parse(body);
 
-  const foundUser = users.find((user) => user.username === username);
-  if (!foundUser || foundUser.password !== password) {
+  const foundUser = await User.findOne({ username });
+  if (!foundUser || !(await foundUser.comparePassword(password))) {
     return {
       statusCode: 401,
       headers: {

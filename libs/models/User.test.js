@@ -9,7 +9,7 @@ describe('User', () => {
     user = new User({
       firstName: 'Han',
       lastName: 'Solo',
-      email: 'millenniumfalcon@mail.com',
+      username: 'millenniumfalcon',
       password: 'NeverTellMeTheOdds',
     });
   });
@@ -20,14 +20,7 @@ describe('User', () => {
   });
 
   describe('fields', () => {
-    describe('email', () => {
-      test('is converted to lowercase before saving', async () => {
-        const uppercaseEmail = 'MILLENNIUMFALCON@MAIL.COM';
-        user.email = uppercaseEmail;
-        const savedUser = await user.save();
-        expect(savedUser.email).toBe(uppercaseEmail.toLowerCase());
-      });
-
+    describe('username', () => {
       test("doesn't allow duplicates", async () => {
         expect.assertions(2);
 
@@ -36,7 +29,7 @@ describe('User', () => {
         const user2 = new User({
           firstName: 'Lando',
           lastName: 'Calrissian',
-          email: 'millenniumfalcon@mail.com',
+          username: 'millenniumfalcon',
           password: 'iMissTheFalcon',
         });
         try {
@@ -79,15 +72,15 @@ describe('User', () => {
       await user.validate();
     });
 
-    test('fails if email is empty', async () => {
+    test('fails if username is empty', async () => {
       expect.assertions(2);
 
-      user.email = undefined;
+      user.username = undefined;
       try {
         await user.validate();
       } catch (err) {
         expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
-        expect(err.errors.email).toBeDefined();
+        expect(err.errors.username).toBeDefined();
       }
     });
 
