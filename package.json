@@ -7,7 +7,7 @@
     "lint:css": "stylelint --allow-empty-input **/*.css",
     "lint:js": "eslint .",
     "lint": "npm run lint:js && npm run lint:css",
-    "mongodb": "run-rs -k -v 4.4.1",
+    "mongodb": "run-rs -k -v 4.2.9",
     "netlify": "netlify dev",
     "test": "jest --passWithNoTests"
   },

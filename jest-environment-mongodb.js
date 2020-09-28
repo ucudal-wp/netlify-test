@@ -4,7 +4,7 @@ const NodeEnvironment = require('jest-environment-node');
 const mongodbMemoryServerOptions = {
   instance: {},
   binary: {
-    version: '4.4.1',
+    version: '4.2.9',
   },
   autoStart: false,
 };
