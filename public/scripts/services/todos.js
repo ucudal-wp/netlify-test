@@ -1,4 +1,5 @@
-import { get } from '../utils/api.js';
+import { get, post } from '../utils/api.js';
 
-// eslint-disable-next-line import/prefer-default-export
 export const getAll = () => get('/todos');
+
+export const create = (text) => post('/todos', { text });
