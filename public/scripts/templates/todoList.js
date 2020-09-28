@@ -8,14 +8,19 @@ const todoItem = (todo) => html`<li>${todo.text}</li>`;
 const todoList = () => {
   const fetchTodos = async () => {
     const { data: todos } = await getAllTodos();
-    return todos.map(todoItem);
+
+    if (todos.length === 0) {
+      return html`<p>You don't have any todos!</p>`;
+    }
+
+    return html`<ul>
+      ${todos.map(todoItem)}
+    </ul>`;
   };
 
   return html`
     <h1>TODO:</h1>
-    <ul>
-      ${resolvePromise(fetchTodos())}
-    </ul>
+    ${resolvePromise(fetchTodos())}
   `;
 };
 
