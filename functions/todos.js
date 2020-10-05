@@ -1,78 +1,10 @@
-const jwt = require('jsonwebtoken');
 const middy = require('@middy/core');
 
-const { Todo, User } = require('../libs/models');
-const { db } = require('../libs/middleware');
-
-const jwtSecret = process.env.JWT_SECRET;
-
-const verifyToken = (token) => {
-  try {
-    return jwt.verify(token, jwtSecret);
-  } catch (err) {
-    if (err.name === 'JsonWebTokenError') {
-      return null;
-    }
-
-    throw err;
-  }
-};
+const { Todo } = require('../libs/models');
+const { authentication, db } = require('../libs/middleware');
 
 const todosHandler = async (event) => {
-  const { body, headers } = event;
-
-  const { authorization } = headers;
-  if (!authorization) {
-    return {
-      statusCode: 401,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ error: 'You must be logged in.' }),
-    };
-  }
-
-  const [scheme, token] = authorization.split(' ');
-
-  if (!/^Bearer$/i.test(scheme)) {
-    return {
-      statusCode: 401,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        error: `Unsupported authentication scheme: "${scheme}". Supported schemes: "Bearer".`,
-      }),
-    };
-  }
-
-  const decoded = verifyToken(token);
-  if (!decoded) {
-    return {
-      statusCode: 401,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        error: 'Invalid token.',
-      }),
-    };
-  }
-
-  const { sub: userId } = decoded;
-  const user = await User.findById(userId);
-
-  if (!user) {
-    return {
-      statusCode: 401,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        error: 'Invalid token.',
-      }),
-    };
-  }
+  const { body } = event;
 
   if (event.httpMethod === 'GET') {
     const todos = await Todo.find();
@@ -107,4 +39,4 @@ const todosHandler = async (event) => {
   };
 };
 
-exports.handler = middy(todosHandler).use(db());
+exports.handler = middy(todosHandler).use([db(), authentication()]);
