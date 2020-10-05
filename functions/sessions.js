@@ -6,8 +6,12 @@ const { mongodb } = require('../libs/connectors');
 const jwtSecret = process.env.JWT_SECRET;
 const mongodbUri = process.env.MONGODB_URI;
 
+let cachedDb = null;
+
 exports.handler = async (event) => {
-  await mongodb(mongodbUri);
+  if (cachedDb === null) {
+    cachedDb = await mongodb(mongodbUri);
+  }
 
   const { body } = event;
 

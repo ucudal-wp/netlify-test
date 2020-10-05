@@ -6,6 +6,8 @@ const { mongodb } = require('../libs/connectors');
 const jwtSecret = process.env.JWT_SECRET;
 const mongodbUri = process.env.MONGODB_URI;
 
+let cachedDb = null;
+
 const verifyToken = (token) => {
   try {
     return jwt.verify(token, jwtSecret);
@@ -19,7 +21,9 @@ const verifyToken = (token) => {
 };
 
 exports.handler = async (event) => {
-  await mongodb(mongodbUri);
+  if (cachedDb === null) {
+    cachedDb = await mongodb(mongodbUri);
+  }
 
   const { body, headers } = event;
 
