@@ -1,7 +1,7 @@
 const middy = require('@middy/core');
 
-const { Todo } = require('../libs/models');
-const { authentication, db } = require('../libs/middleware');
+const { Todo } = require('../../libs/models');
+const { authentication, db } = require('../../libs/middleware');
 
 const todosHandler = async (event) => {
   const { body } = event;

@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 const middy = require('@middy/core');
 
-const { User } = require('../libs/models');
-const { db } = require('../libs/middleware');
+const { User } = require('../../libs/models');
+const { db } = require('../../libs/middleware');
 
 const jwtSecret = process.env.JWT_SECRET;
 
