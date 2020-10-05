@@ -20,7 +20,10 @@ const verifyToken = (token) => {
   }
 };
 
-exports.handler = async (event) => {
+exports.handler = async (event, context) => {
+  // Allow AWS Lambda to reuse cached DB connection between function invocations.
+  context.callbackWaitsForEmptyEventLoop = false;
+
   if (cachedDb === null) {
     cachedDb = await mongodb(mongodbUri);
   }
