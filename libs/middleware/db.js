@@ -2,16 +2,24 @@ const { mongodb } = require('../connectors');
 
 const mongodbUri = process.env.MONGODB_URI;
 
-let cachedDb = null;
+let cachedConnection = null;
 
 const db = () => ({
-  before: async (handler) => {
+  before: (handler, next) => {
     // Allow AWS Lambda to reuse cached DB connection between function invocations.
     handler.context.callbackWaitsForEmptyEventLoop = false; // eslint-disable-line no-param-reassign
 
-    if (cachedDb === null) {
-      cachedDb = await mongodb(mongodbUri);
+    if (cachedConnection === null) {
+      mongodb(mongodbUri)
+        .then((connection) => {
+          cachedConnection = connection;
+          next();
+        })
+        .catch(next);
+      return;
     }
+
+    next();
   },
 });
 
