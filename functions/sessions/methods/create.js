@@ -1,15 +1,11 @@
 const jwt = require('jsonwebtoken');
-const middy = require('@middy/core');
 
-const { User } = require('../libs/models');
-const { db } = require('../libs/middleware');
+const { User } = require('../../../libs/models');
 
 const jwtSecret = process.env.JWT_SECRET;
 
-const sessionsHandler = async (event) => {
-  const { body } = event;
-
-  const { username, password } = JSON.parse(body);
+const create = async (event) => {
+  const { username, password } = JSON.parse(event.body);
 
   const foundUser = await User.findOne({ username });
   if (!foundUser || !(await foundUser.comparePassword(password))) {
@@ -33,4 +29,4 @@ const sessionsHandler = async (event) => {
   };
 };
 
-exports.handler = middy(sessionsHandler).use(db());
+module.exports = create;
