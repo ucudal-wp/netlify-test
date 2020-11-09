@@ -1,9 +1,21 @@
 import { html } from 'https://unpkg.com/lit-html?module';
 
 import resolvePromise from '../directives/resolvePromise.js';
-import { getAll as getAllTodos } from '../services/todos.js';
+import {
+  getAll as getAllTodos,
+  remove as removeTodo,
+} from '../services/todos.js';
 
-const todoItem = (todo) => html`<li>${todo.text}</li>`;
+const todoItem = (todo) => {
+  const handleDeleteClick = async () => {
+    await removeTodo(todo._id);
+  };
+
+  return html`<li>
+    ${todo.text}
+    <button @click=${handleDeleteClick}>X</button>
+  </li>`;
+};
 
 const todoList = () => {
   const fetchTodos = async () => {
