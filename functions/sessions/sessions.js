@@ -1,5 +1,3 @@
-const middy = require('@middy/core');
-
 const { create } = require('./methods');
 const { db } = require('../../libs/middleware');
 
@@ -13,4 +11,4 @@ const sessionsHandler = async (event) => {
   };
 };
 
-exports.handler = middy(sessionsHandler).use(db());
+exports.handler = db(sessionsHandler);

@@ -1,5 +1,3 @@
-const middy = require('@middy/core');
-
 const { authentication, db } = require('../../libs/middleware');
 const { create, readAll } = require('./methods');
 
@@ -17,4 +15,4 @@ const todosHandler = async (event) => {
   };
 };
 
-exports.handler = middy(todosHandler).use([db(), authentication()]);
+exports.handler = db(authentication(todosHandler));

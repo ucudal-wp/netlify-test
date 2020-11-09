@@ -4,23 +4,16 @@ const mongodbUri = process.env.MONGODB_URI;
 
 let cachedConnection = null;
 
-const db = () => ({
-  before: (handler, next) => {
-    // Allow AWS Lambda to reuse cached DB connection between function invocations.
-    handler.context.callbackWaitsForEmptyEventLoop = false; // eslint-disable-line no-param-reassign
+const db = (handler) => async (event, context) => {
+  // Allow AWS Lambda to reuse cached DB connection between function invocations.
+  context.callbackWaitsForEmptyEventLoop = false; // eslint-disable-line no-param-reassign
 
-    if (cachedConnection === null) {
-      mongodb(mongodbUri)
-        .then((connection) => {
-          cachedConnection = connection;
-          next();
-        })
-        .catch(next);
-      return;
-    }
+  if (cachedConnection === null) {
+    const connection = await mongodb(mongodbUri);
+    cachedConnection = connection;
+  }
 
-    next();
-  },
-});
+  return handler(event, context);
+};
 
 module.exports = db;
