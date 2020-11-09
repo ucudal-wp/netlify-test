@@ -1,11 +1,8 @@
 const { Todo } = require('../../../libs/models');
 
-const create = async (event) => {
-  const { text } = JSON.parse(event.body);
-
+const create = async (text) => {
   const todo = new Todo({ text });
   await todo.save();
-
   return {
     statusCode: 201,
     headers: {

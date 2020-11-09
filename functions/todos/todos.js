@@ -2,12 +2,15 @@ const { authentication, db } = require('../../libs/middleware');
 const { create, readAll } = require('./methods');
 
 const todosHandler = async (event) => {
-  if (event.httpMethod === 'GET') {
-    return readAll(event);
+  const { httpMethod: method } = event;
+
+  if (method === 'GET') {
+    return readAll();
   }
 
-  if (event.httpMethod === 'POST') {
-    return create(event);
+  if (method === 'POST') {
+    const { text } = JSON.parse(event.body);
+    return create(text);
   }
 
   return {

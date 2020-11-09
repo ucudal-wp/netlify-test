@@ -4,9 +4,7 @@ const { User } = require('../../../libs/models');
 
 const jwtSecret = process.env.JWT_SECRET;
 
-const create = async (event) => {
-  const { username, password } = JSON.parse(event.body);
-
+const create = async (username, password) => {
   const foundUser = await User.findOne({ username });
   if (!foundUser || !(await foundUser.comparePassword(password))) {
     return {
