@@ -6,6 +6,8 @@ const { mongodb } = require('../libs/connectors');
 const jwtSecret = process.env.JWT_SECRET;
 const mongodbUri = process.env.MONGODB_URI;
 
+let cachedDb = null;
+
 const verifyToken = (token) => {
   try {
     return jwt.verify(token, jwtSecret);
@@ -18,8 +20,13 @@ const verifyToken = (token) => {
   }
 };
 
-exports.handler = async (event) => {
-  await mongodb(mongodbUri);
+exports.handler = async (event, context) => {
+  // Allow AWS Lambda to reuse cached DB connection between function invocations.
+  context.callbackWaitsForEmptyEventLoop = false;
+
+  if (cachedDb === null) {
+    cachedDb = await mongodb(mongodbUri);
+  }
 
   const { body, headers } = event;
 
