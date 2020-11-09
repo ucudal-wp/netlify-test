@@ -1,21 +1,12 @@
 const jwt = require('jsonwebtoken');
+const middy = require('@middy/core');
 
 const { User } = require('../libs/models');
-const { mongodb } = require('../libs/connectors');
+const { db } = require('../libs/middleware');
 
 const jwtSecret = process.env.JWT_SECRET;
-const mongodbUri = process.env.MONGODB_URI;
 
-let cachedDb = null;
-
-exports.handler = async (event, context) => {
-  // Allow AWS Lambda to reuse cached DB connection between function invocations.
-  context.callbackWaitsForEmptyEventLoop = false;
-
-  if (cachedDb === null) {
-    cachedDb = await mongodb(mongodbUri);
-  }
-
+const sessionsHandler = async (event) => {
   const { body } = event;
 
   const { username, password } = JSON.parse(body);
@@ -41,3 +32,5 @@ exports.handler = async (event, context) => {
     body: JSON.stringify({ token }),
   };
 };
+
+exports.handler = middy(sessionsHandler).use(db());
