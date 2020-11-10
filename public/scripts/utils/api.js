@@ -1,6 +1,6 @@
 import { getSessionToken } from './session.js';
 
-const baseUrl = '/.netlify/functions';
+const baseUrl = '/api';
 
 const fetch = async (url, method, data) => {
   const headers = new Headers();

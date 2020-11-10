@@ -9,6 +9,6 @@ const renderApp = () => {
   render(app(), document.body);
 };
 
-window.addEventListener('auth', renderApp);
+window.addEventListener('nav', renderApp);
 
 renderApp();
