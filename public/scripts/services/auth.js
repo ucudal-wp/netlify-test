@@ -1,10 +1,6 @@
 import { post } from '../utils/api.js';
+import { navigate } from '../utils/navigation.js';
 import { removeSessionToken, setSessionToken } from '../utils/session.js';
-
-/**
- * Custom event fired when authentication status changes.
- */
-const authEvent = new CustomEvent('auth');
 
 export const logIn = async (username, password) => {
   const { data: session, error } = await post('/sessions', {
@@ -21,11 +17,11 @@ export const logIn = async (username, password) => {
 
   setSessionToken(session.token);
 
-  window.dispatchEvent(authEvent);
+  navigate('/');
 };
 
 export const logOut = () => {
   removeSessionToken();
 
-  window.dispatchEvent(authEvent);
+  navigate('/login');
 };
